@@ -9,7 +9,7 @@ namespace DtFromTxtExtractor
             Console.WriteLine("DtfromTxtExtractor");
             Console.WriteLine("------------");
 
-            var filePath = "WeatherStations_rtf.txt";
+            var filePath = "Example_WeatherStations.txt";
             
             var rows = Extractor.Extract(filePath);
             
@@ -23,3 +23,4 @@ namespace DtFromTxtExtractor
         }
     }
 }
+
