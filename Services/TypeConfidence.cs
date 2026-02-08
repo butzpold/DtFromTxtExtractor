@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DtFromTxtExtractor.Services
+﻿namespace DtFromTxtExtractor.Services
 {
     internal static class TypeConfidence
-    {        
+    {
+        internal class CheckConfidenceResult
+        {
+            public double Confidence { get; set; }
+            public bool ValidConfidence {get; set; }
+        }
         public static double Level(
             IEnumerable<string> columnValues,
             // tryParsePredicate looks like v => type.TryParse(v, out _); type = int/bool/strin/DateTime etc.
@@ -26,14 +24,22 @@ namespace DtFromTxtExtractor.Services
             int validTypeCount = data.Count(tryParsePredicate);
 
             return (double)validTypeCount / data.Count;
-        }
-        public static bool CheckConfidence(
+        }        
+        // gives an object with two properties back:
+        //  a double of the confidence Level of the column and a bool if this is higher than the threshold        
+        public static CheckConfidenceResult CheckConfidence(
             IEnumerable<string> columnValues,        
             Func<string, bool> tryParsePredicate,
             double threshold = 0.95
         )
         {
-            return Level(columnValues, tryParsePredicate) >= threshold;
+            double confidence = Level(columnValues, tryParsePredicate);       
+
+            return new CheckConfidenceResult
+            {
+                Confidence = confidence,
+                ValidConfidence = confidence >= threshold
+            };
         }
 }
 }
