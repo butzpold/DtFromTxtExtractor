@@ -2,11 +2,6 @@
 {
     internal static class TypeConfidence
     {
-        internal class CheckConfidenceResult
-        {
-            public double Confidence { get; set; }
-            public bool ValidConfidence {get; set; }
-        }
         public static double Level(
             IEnumerable<string> columnValues,
             // tryParsePredicate looks like v => type.TryParse(v, out _); type = int/bool/strin/DateTime etc.

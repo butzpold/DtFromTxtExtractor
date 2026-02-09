@@ -19,7 +19,6 @@ namespace DtFromTxtExtractor.Services
             List<List<string>> DtAsList
             )        
         {           
-            var result = new CreateClassResult();
             var confidenceProperties = new List<ConfidencePropertyType>();
             // split the headers from the Rest of the Datalist
             var headers = DtAsList[0];
@@ -44,40 +43,21 @@ namespace DtFromTxtExtractor.Services
             // assign Datatypes to columns and then merge the according Datatype and Header to an object
             // the next step won't change the type of the values of the columns. they remaining strings             
             for (int i = 0; i < columnCount; i++)
-            {                
-                InferredType inferredType;
-                double confidence;                
+            {
+                InferredType inferredType = InferredType.String;
+                double confidence = 1.0;
 
-                var checkInt = TypeConfidence.CheckConfidence(columns[i], v => int.TryParse(v, out _));
-                var checkDouble = TypeConfidence.CheckConfidence(columns[i], v => double.TryParse(v, out _));
-                var checkDatetime = TypeConfidence.CheckConfidence(columns[i], v => DateTime.TryParse(v, out _));
-                var checkBool = TypeConfidence.CheckConfidence(columns[i], v => bool.TryParse(v, out _));
+                foreach (var rule in TypeInferenceRules.Rules)
+                {
+                    var result = rule.Check(columns[i]);
 
-                if (checkInt.ValidConfidence)
-                {
-                    inferredType = InferredType.Int;  
-                    confidence = checkInt.Confidence;
-                }
-                else if (checkDouble.ValidConfidence)
-                { 
-                    inferredType = InferredType.Double;
-                    confidence = checkDouble.Confidence;
-                }
-                else if (checkDatetime.ValidConfidence)
-                {
-                    inferredType = InferredType.DateTime;
-                    confidence = checkDatetime.Confidence;
-                }
-                else if (checkBool.ValidConfidence)
-                {
-                    inferredType = InferredType.Bool;
-                    confidence = checkBool.Confidence;
-                }
-                else
-                {
-                    inferredType = InferredType.String;
-                    confidence = 1.0;
-                }
+                    if (result.ValidConfidence)
+                    {
+                        inferredType = rule.Type;
+                        confidence = result.Confidence;
+                        break;
+                    }
+                }            
 
                 // Nullable detection:
                 // checks if there is at least one value in the column without a value 
@@ -105,7 +85,8 @@ namespace DtFromTxtExtractor.Services
                     {
                         PropertyName = headers[i],
                         PropertyType = inferredType,
-                        TypeConfidence = confidence
+                        TypeConfidence = confidence,
+                        IsNullable = isNullable
                     }
                 );
             }            
