@@ -8,4 +8,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove=".filenesting.json" />
+    <None Remove=".gitignore" />
+    <None Remove="WeatherStations_rtf.txt" />
+  </ItemGroup>
+
 </Project>

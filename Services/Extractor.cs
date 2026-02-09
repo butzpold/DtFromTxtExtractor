@@ -32,7 +32,6 @@
                         rowsUnparsed.Add(line);                   
                     }
                     // Parse the Rows/Lines according to th columnWidths
-
                     foreach (var u in rowsUnparsed)
                     {
                         var rowParsed = new List<string>();
