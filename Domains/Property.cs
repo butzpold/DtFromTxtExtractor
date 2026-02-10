@@ -1,6 +1,4 @@
-﻿using DtFromTxtExtractor.Services;
-
-namespace DtFromTxtExtractor.Domains
+﻿namespace DtFromTxtExtractor.Domains
 {
     internal class Property
     {

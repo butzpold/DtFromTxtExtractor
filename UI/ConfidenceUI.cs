@@ -17,7 +17,6 @@ namespace DtFromTxtExtractor.UI
                     $"Confidence: {p.TypeConfidence:P1}"
                 );
             }
-
             return sb.ToString();
         }
     }

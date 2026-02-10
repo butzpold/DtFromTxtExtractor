@@ -5,15 +5,15 @@ namespace DtFromTxtExtractor.Services
 {
     internal class PropertyCreator
     {
-        public static ClassProperties Create(List<List<string>> DtAsList)        
-        {           
+        public static ClassProperties Create(ParsedTable parsedTable)        
+        {              
+            var headers = parsedTable.Headers;
+            var dataRows = parsedTable.Rows;
+            
             var properties = new List<Property>();
-            // split the headers from the Rest of the Datalist
-            var headers = DtAsList[0];
-            var dataRows = DtAsList.Skip(1).ToList();
-
             var columns = new List<List<string>>();
-            int columnCount = DtAsList[0].Count();
+            
+            int columnCount = headers.Count();
             // transpose the DataList; form rowise to columnwise
             for (int col = 0; col < columnCount; col++)
             {

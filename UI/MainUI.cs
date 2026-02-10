@@ -1,9 +1,4 @@
 ﻿using DtFromTxtExtractor.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DtFromTxtExtractor.UI
 {
@@ -46,9 +41,11 @@ namespace DtFromTxtExtractor.UI
                 }
                 else
                 {
-                    var rows = Extractor.Extract(filePath);
-                    var properties = PropertyCreator.Create(rows);
-                    Console.WriteLine(ClassCodeUI.Format(filePath, properties));
+                    var metadata = FilePathParser.Parse(filePath);
+                    var parsedtable = FixedWidthTxtParser.Parse(metadata);
+                    var properties = PropertyCreator.Create(parsedtable);
+                    CsvCreator.Create(metadata, parsedtable);
+                    Console.WriteLine(ClassCodeUI.Format(metadata, properties));
                     Console.WriteLine("------------------");
                     Console.WriteLine("Type Confidences:");
 

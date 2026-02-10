@@ -36,5 +36,5 @@
                 ValidConfidence = confidence >= threshold
             };
         }
-}
+    }
 }

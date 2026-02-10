@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.IO;
 using DtFromTxtExtractor.Domains;
 
 namespace DtFromTxtExtractor.UI
@@ -17,10 +16,12 @@ namespace DtFromTxtExtractor.UI
                     [InferredType.DateTime] = "DateTime",
                     [InferredType.Bool] = "bool"
                 };
-        public static string Format(string filePath, ClassProperties classProperties)
+        public static string Format(
+            FileMetaData metadata, 
+            ClassProperties classProperties)
         {   
             // getting the ClassName out of the FilePath
-            string? className = Path.GetFileNameWithoutExtension(filePath);
+            string className = metadata.FileName;
             // assembling the ClassProperties in string-Format
             var sb = new StringBuilder();
             string inferredPropertyTypeAsString;

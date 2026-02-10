@@ -1,8 +1,12 @@
-﻿using DtFromTxtExtractor.Domains;
+﻿// stored function pointer
+// function inside each inference rule referring TypeInferenceRules.cs
+// calls indirectly TypeConfidenc.CheckConfidence(col)
+
+using DtFromTxtExtractor.Domains;
 
 namespace DtFromTxtExtractor.Services
 {
-    internal record TypeInferenceRule
+    internal record TypeInferenceRule //record class just holding data, not behavior
     (
         InferredType Type,
         Func<IEnumerable<string>, CheckConfidenceResult> Check
